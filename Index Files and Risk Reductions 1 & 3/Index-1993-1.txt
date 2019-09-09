@@ -1,0 +1,14 @@
+Description:           Master Index of EDGAR Dissemination Feed by Company Name
+Last Data Received:    March 31, 1993
+Comments:              webmaster@sec.gov
+Anonymous FTP:         ftp://ftp.sec.gov/edgar/
+ 
+ 
+ 
+ 
+Company Name                                                  Form Type   CIK         Date Filed  File Name
+---------------------------------------------------------------------------------------------------------------------------------------------
+MERRILL LYNCH LIFE VARIABLE ANNUITY SEPARATE ACCOUNT B        NSAR-B      880794      1993-02-26  edgar/data/880794/9999999997-05-050433.txt          
+RBS PARTNERS L P /CT                                          13FCONP     860585      1993-02-11  edgar/data/860585/9999999997-04-035713.txt          
+SMITH THOMAS W                                                13F-HR      926688      1993-02-12  edgar/data/926688/9999999997-05-015654.txt          
+STORAGE TECHNOLOGY CORP                                       CERTNYS     94673       1993-02-24  edgar/data/94673/9999999997-05-037760.txt           

@@ -1,0 +1,17 @@
+Description:           Master Index of EDGAR Dissemination Feed by Company Name
+Last Data Received:    September 30, 1993
+Comments:              webmaster@sec.gov
+Anonymous FTP:         ftp://ftp.sec.gov/edgar/
+ 
+ 
+ 
+ 
+Company Name                                                  Form Type   CIK         Date Filed  File Name
+---------------------------------------------------------------------------------------------------------------------------------------------
+LOUISIANA LAND & EXPLORATION CO                               10-Q        60512       1993-08-13  edgar/data/60512/0000060512-94-000005.txt           
+MERRILL LYNCH FL MUN BOND FD OF MERRILL LYNCH MUL ST MUN SER  24F-2NT     873611      1993-09-28  edgar/data/873611/0000873611-93-000002.txt          
+MINNESOTA MINING & MANUFACTURING CO                           10-Q        66740       1993-08-13  edgar/data/66740/0000066740-94-000015.txt           
+RBS PARTNERS L P /CT                                          13FCONP     860585      1993-08-13  edgar/data/860585/9999999997-04-035732.txt          
+SEARS EQUITY INVESTMENT TRUST SELECTED OPPORTUNITIES SER 13   24F-2NT     885723      1993-07-13  edgar/data/885723/0000950162-93-000185.txt          
+SMITH THOMAS W                                                13F-HR      926688      1993-08-13  edgar/data/926688/9999999997-05-015665.txt          
+TRANSAMERICA FINANCE CORP                                     S-3         99193       1993-07-13  edgar/data/99193/0000950131-93-000153.txt           

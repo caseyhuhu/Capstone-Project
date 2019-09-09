@@ -1,0 +1,30 @@
+Description:           Master Index of EDGAR Dissemination Feed by Company Name
+Last Data Received:    December 31, 1993
+Comments:              webmaster@sec.gov
+Anonymous FTP:         ftp://ftp.sec.gov/edgar/
+ 
+ 
+ 
+ 
+Company Name                                                  Form Type   CIK         Date Filed  File Name
+---------------------------------------------------------------------------------------------------------------------------------------------
+AFFILIATE STKHLDRS OF MORGAN STANLEY DEAN WITTER DISCOVER&CO  SC 13D/A    909465      1993-11-08  edgar/data/909465/0001021408-01-503754.txt          
+AMERICAN MEDICAL HOLDINGS INC                                 10-K        861439      1993-11-29  edgar/data/861439/0000912057-94-000263.txt          
+BETHLEHEM STEEL CORP /DE/                                     10-Q        11860       1993-11-12  edgar/data/11860/0000011860-94-000005.txt           
+CAPITAL HOLDING CORP                                          10-K/A      17206       1993-12-22  edgar/data/17206/0000017206-94-000007.txt           
+CLARK REFINING & MARKETING INC                                10-Q        20762       1993-11-12  edgar/data/20762/0000950131-94-000025.txt           
+DATAPOINT CORP                                                10-Q        205239      1993-12-14  edgar/data/205239/0000205239-94-000003.txt          
+DISNEY WALT CO                                                10-K        29082       1993-12-22  edgar/data/29082/0000950131-94-000021.txt           
+ELIZABETHTOWN GAS CO                                          10-K        32377       1993-12-13  edgar/data/32377/0000032377-94-000001.txt           
+ENERGY SERVICE COMPANY INC                                    11-KT       314808      1993-12-31  edgar/data/314808/0000314808-94-000032.txt          
+INTERNATIONAL GAME TECHNOLOGY                                 10-K        353944      1993-12-23  edgar/data/353944/0000353944-94-000005.txt          
+JP MORGAN INSTITUTIONAL FUNDS                                 NT-NSAR     894088      1993-12-30  edgar/data/894088/9999999997-05-036750.txt          
+LOUISIANA LAND & EXPLORATION CO                               10-K/A      60512       1993-10-07  edgar/data/60512/0000060512-94-000006.txt           
+LOUISIANA LAND & EXPLORATION CO                               10-Q        60512       1993-11-10  edgar/data/60512/0000060512-94-000007.txt           
+LOUISIANA LAND & EXPLORATION CO                               8-K         60512       1993-10-29  edgar/data/60512/0000060512-94-000008.txt           
+MINNESOTA MINING & MANUFACTURING CO                           10-Q        66740       1993-11-12  edgar/data/66740/0000066740-94-000016.txt           
+MORGAN STANLEY DEAN WITTER & CO                               SC 13D/A    895421      1993-11-08  edgar/data/895421/0001021408-01-503754.txt          
+RBS PARTNERS L P /CT                                          13FCONP     860585      1993-11-15  edgar/data/860585/9999999997-04-035723.txt          
+SAGE CAPITAL LP                                               REGDEX      1095785     1993-12-30  edgar/data/1095785/9999999997-02-056978.txt         
+SMITH THOMAS W                                                13F-HR      926688      1993-11-12  edgar/data/926688/9999999997-05-015667.txt          
+SMITH THOMAS W                                                13FCONP     926688      1993-11-15  edgar/data/926688/9999999997-05-015669.txt          
