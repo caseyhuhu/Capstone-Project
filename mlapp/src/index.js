@@ -24,7 +24,6 @@ app.get('/upload', (req, res) => {
   res.render('upload.ejs');
 })
 
-
 app.post('/', (req, res) => {
   if (req.files) {
     var file = req.files.fileName,

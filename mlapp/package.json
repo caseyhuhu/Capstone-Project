@@ -21,6 +21,7 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6-alpha.5",
+    "font-awesome": "^4.7.0",
     "intro.js": "^2.9.3"
   }
 }
