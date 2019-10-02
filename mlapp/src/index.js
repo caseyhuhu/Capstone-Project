@@ -10,7 +10,6 @@ app.use(cors()); //middleware
 
 app.get('/', (req, res) => {
   res.render('index.ejs');
-//  res.sendFile(path.join(__dirname+'/index.ejs'));
 });
 
 app.get('/about', (req, res) => {
@@ -20,6 +19,11 @@ app.get('/about', (req, res) => {
 app.get('/edgar', (req, res) => {
   res.render('aboutEdgar.ejs');
 })
+
+app.get('/upload', (req, res) => {
+  res.render('upload.ejs');
+})
+
 
 app.post('/', (req, res) => {
   if (req.files) {

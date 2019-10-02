@@ -1,0 +1,16 @@
+#rcorners1 {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+    width: 200px;
+    height: 150px;  
+}
+
+div.test
+{
+width: 115px;
+padding: 10px;
+border: 2px solid #000;
+border-radius: 15px;
+-moz-border-radius: 15px;
+}
