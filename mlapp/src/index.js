@@ -2,22 +2,44 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import upload from "express-fileupload";
 
 const app = express();
 
 app.use(cors()); //middleware
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname+'/index.html'));
+  res.render('index.ejs');
 });
 
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname+'/about.html'));
+  res.render('aboutUs.ejs');
 })
 
 app.get('/edgar', (req, res) => {
-  res.sendFile(path.join(__dirname+'/edgar.html'));
+  res.render('aboutEdgar.ejs');
 })
+
+app.get('/upload', (req, res) => {
+  res.render('upload.ejs');
+})
+
+app.post('/', (req, res) => {
+  if (req.files) {
+    var file = req.files.fileName,
+      filename = req.file.name;
+    file.mv('./upload'+filename, (err) => {
+      if(err) {
+        console.log(err);
+        res.send("error occured");
+      }
+      else {
+        res.send("Done");
+      }
+    })
+  }
+})
+
 
 
 app.listen(process.env.PORT, () => {
