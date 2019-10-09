@@ -19,13 +19,10 @@ var directoryPath = path.join(__dirname, 'upload');
 app.get('/', (req, res) => {
   var myData = [];
   fs.readdir(directoryPath, function (err, files) {
-    //handling error
     if (err) {
         return console.log('Unable to scan directory: ' + err);
     } 
-    //listing all files using forEach
     files.forEach(function (file) {
-        // Do whatever you want to do with the file
         myData.push(file);
     });
     res.render('index.ejs', {myData});
@@ -41,20 +38,41 @@ app.get('/edgar', (req, res) => {
 })
 
 app.get('/upload', (req, res) => {
-  res.render('upload.ejs');
+  var myData = [];
+  fs.readdir(directoryPath, function (err, files) {
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    } 
+    files.forEach(function (file) {
+        myData.indexOf(file) === -1 ? myData.push(file) : null;
+      });
+    res.render('upload.ejs', {myData});
+  });
 })
 
 app.post('/upload', (req, res) => {
   if (req.files) {
     var file = req.files.filename,
       filename = file.name;
+    // if (path.extname(filename) != '.csv') {
+    //   res.end();
+    // }
     file.mv('./src/upload/'+filename, (err) => {
       if(err) {
         console.log(err);
         res.send("The file failed to upload");
       }
       else {
-        res.render('upload.ejs');
+          var myData = [];
+          fs.readdir(directoryPath, function (err, files) {
+          if (err) {
+              return console.log('Unable to scan directory: ' + err);
+          } 
+          files.forEach(function (file) {
+              myData.indexOf(file) === -1 ? myData.push(file) : null;
+          });
+          res.render('upload.ejs', {myData});
+        });      
       }
     })
   }
