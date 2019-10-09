@@ -7,10 +7,15 @@
             <h3 style="text-align: center">Insert tagline here</h3>
             <br>
             <br>
-            <div class="active-cyan-3 active-cyan-4 mb-4">
-                <input class="form-control" type="text" placeholder="Type a company name" aria-label="Search">
-            </div>
             <div class="text-center">
+                <div class="active-cyan-3 active-cyan-4 mb-4">
+                    <select id="volume">
+                        <option disabled selected="true">Select a company name</option>
+                        <%for (var i = 0; i < myData.length; i++) { %>
+                        <option><%=myData[i] %></option>
+                       <% } %>
+                    </select>
+                </div>            
                 <button type="button" onclick="location.href='/upload'" class="btn btn-info">Upload a new company</button>
             </div>
         </div>

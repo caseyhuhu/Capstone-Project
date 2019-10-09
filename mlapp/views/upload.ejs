@@ -1,13 +1,36 @@
 <% include ../src/partials/header.ejs %>
 <div class="container">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h1>Upload a file here</h1>
-            <form method="post" enctype="multipart/form-data">
-                <input type="file" name="filename">
-                <input type="submit" value="upload">
-            </form>
-        </div>
+         <div class="col-md-12">
+                <div class="card-deck">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="text-align: center">Upload Tutorial</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="text-align: center">Upload a file here</h5>
+                            <br>
+                            <br>
+                            <form method="post" enctype="multipart/form-data" action='/upload'>
+                                <input type="file" name="filename">
+                                <br>
+                                <br>
+                                <button href="/upload" class="btn btn-primary btn-md my-0" type="submit">Upload</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="text-align: center">Currently uploaded companies</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                        </div>
+                    </div>
+                </div>
+                      
+        </div> 
     </div>
 </div>
 </body>
