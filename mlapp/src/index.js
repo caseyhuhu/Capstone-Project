@@ -15,8 +15,8 @@ app.use(upload())
 
 var directoryPath = path.join(__dirname, 'upload');
 
-
 app.get('/', (req, res) => {
+
   var myData = [];
   fs.readdir(directoryPath, function (err, files) {
     if (err) {
