@@ -15,8 +15,10 @@
                         <option><%=myData[i] %></option>
                        <% } %>
                     </select>
-                </div>            
-                <button type="button" onclick="location.href='/upload'" class="btn btn-info">Upload a new company</button>
+                </div>         
+                <form action="/" method="POST">
+                    <button href="/" class="btn btn-primary btn-md my-0" type="submit">Predict</button>
+                </form>                                              
             </div>
         </div>
     </div>
