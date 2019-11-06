@@ -6,6 +6,7 @@ import upload from 'express-fileupload';
 import bodyParser from 'body-parser'
 import fs from 'fs';
 const app = express();
+import {spawn} from 'child_process';
 
 app.use(cors()); //middleware
 app.set('view engine', 'ejs')
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(upload())
 
 var directoryPath = path.join(__dirname, 'upload');
+var pythonPath = path.join(__dirname, 'RNN.py');
 
 app.get('/', (req, res) => {
   var myData = [];
@@ -37,21 +39,15 @@ app.post('/', (req, res) => {
         myData.push(file);
     });
   });
-  var process = spawn('python3', ['./RNN.py']); 
+  var process = spawn('python3', [pythonPath]); 
   process.stdout.on('data', function(data) { 
-      console.log(data.toString());
+    console.log(data.toString());
   }) 
-  res.render('index.ejs', {myData});
+  res.send('RMSE Value:')
 });
 
 app.get('/about', (req, res) => {
   res.render('aboutUs.ejs');
-  // var spawn = require('child_process').spawn;
-  // var process = spawn('python3', ['RNN.py']); 
-  // process.stdout.on('data', function(data) { 
-  //     console.log(data.toString());
-  // }) 
-  // res.send('RMSE Value')
 })
 
 app.get('/edgar', (req, res) => {
