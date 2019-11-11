@@ -105,7 +105,7 @@ model.add(LSTM(64, return_sequences=True))
 model.add(LSTM(32, return_sequences=True))
 model.add(LSTM(16, return_sequences=True))
 model.add(LSTM(9))
-model.add(Dense(9))
+model.add(Dense(NUM_COMPANIES))
 model.compile(loss='mae', optimizer='adam')
 # fit network
 history = model.fit(train_X, train_y, epochs=200, batch_size=16, validation_data=(test_X, test_y), verbose=0, shuffle=False)
