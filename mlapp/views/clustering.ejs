@@ -1,0 +1,20 @@
+<% include ../src/partials/header.ejs %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 style="text-align: center">Clustering</h1>
+            <div class="text-center">
+                <form method="post" enctype="multipart/form-data" action='/upload'>
+                    <br>
+                    <input type="text" name="name" placeholder="Company Name">
+                    <br>
+                    <br>
+                    <input type="text" name="symbol" placeholder="Stock Symbol">
+                    <br><br>
+                    <button href="/clustering" class="btn btn-primary btn-md my-0" type="submit">Cluster</button>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../src/partials/footer.ejs %>

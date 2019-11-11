@@ -14,7 +14,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(upload())
 
 var directoryPath = path.join(__dirname, 'upload');
-var pythonPath = path.join(__dirname, 'RNN.py');
+var rnnPath = path.join(__dirname, 'RNN.py');
+var scraperPath = path.join(__dirname, 'scraper.py');
+var clusterpath = path.join(__dirname, 'kMeans.py');
 
 app.get('/', (req, res) => {
   var myData = [];
@@ -39,11 +41,11 @@ app.post('/', (req, res) => {
         myData.push(file);
     });
   });
-  var process = spawn('python3', [pythonPath]); 
+  var process = spawn('python3', [rnnPath, req.body.number]); 
   process.stdout.on('data', function(data) { 
     console.log(data.toString());
   }) 
-  res.send('RMSE Value:')
+  res.render('index.ejs', {myData});
 });
 
 app.get('/about', (req, res) => {
@@ -51,7 +53,31 @@ app.get('/about', (req, res) => {
 })
 
 app.get('/edgar', (req, res) => {
-  res.render('aboutEdgar.ejs');
+  res.render('edgar.ejs');
+})
+
+app.get('/clustering', (req, res) => {
+  res.render('clustering.ejs');
+})
+
+app.post('/clustering', (req, res) => {
+  var process = spawn('python3', [clusterpath]);
+  process.stdout.on('data', function(data) { 
+    console.log(data.toString());
+  }); 
+  res.render('clustering.ejs');
+})
+
+app.get('/scraping', (req, res) => {
+  res.render('scraping.ejs');
+})
+
+app.post('/scraping', (req, res) => {
+  var process = spawn('python3', [scraperPath, req.body.symbol]); 
+  process.stdout.on('data', function(data) { 
+    console.log('scraped');
+  }); 
+  res.render('scraping.ejs');
 })
 
 app.get('/upload', (req, res) => {

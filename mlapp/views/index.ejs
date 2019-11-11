@@ -8,7 +8,7 @@
             <br> 
             <br>
             <div class="text-center">
-                <div class="active-cyan-3 active-cyan-4 mb-4">
+                <!-- <div class="active-cyan-3 active-cyan-4 mb-4">
                     <select id="volume">
                         <option disabled selected="true">Select a company name</option>
                         <%for (var i = 0; i < myData.length; i++) { %>
@@ -18,7 +18,13 @@
                 </div>         
                 <form action="/" method="POST">
                     <button href="/" class="btn btn-primary btn-md my-0" type="submit">Predict</button>
-                </form>                                              
+                </form>                                               -->
+                <form method="post" enctype="multipart/form-data" action='/'>
+                    <br>
+                    <input type="text" name="number" placeholder="Number of Companies">
+                    <br><br>
+                    <button href="/" class="btn btn-primary btn-md my-0" type="submit">Predict</button>
+                </form> 
             </div>
         </div>
     </div>
