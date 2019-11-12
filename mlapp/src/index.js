@@ -20,6 +20,7 @@ var clusterpath = path.join(__dirname, 'kMeans.py');
 
 app.get('/', (req, res) => {
   var myData = [];
+  var stockPrice;
   fs.readdir(directoryPath, function (err, files) {
     if (err) {
         return console.log('Unable to scan directory: ' + err);
@@ -27,7 +28,7 @@ app.get('/', (req, res) => {
     files.forEach(function (file) {
         myData.push(file);
     });
-    res.render('index.ejs', {myData});
+    res.render('index.ejs', {myData, stockPrice});
   });
 });
 
@@ -41,12 +42,23 @@ app.post('/', (req, res) => {
         myData.push(file);
     });
   });
-  var process = spawn('python3', [rnnPath, req.body.number]); 
-  process.stdout.on('data', function(data) { 
-    console.log(data.toString());
-  }) 
-  res.render('index.ejs', {myData});
+  var output;
+  var obj;
+  
+  var stockPrice = [];
+  var name = req.body.name;
+  var caseName = name[0] + name.substring(1).toLowerCase();
+  var process = spawn('python3', [rnnPath]); 
+  process.stdout.on('data', function(data) {
+    output = data.toString(); 
+  });
+  process.on('exit', () => {
+    obj = JSON.parse(output);
+    stockPrice.push(caseName + "'s stock price is predicted to be $" + obj[name]);
+    res.render('index.ejs', {myData, stockPrice});
+  });
 });
+
 
 app.get('/about', (req, res) => {
   res.render('aboutUs.ejs');
@@ -68,16 +80,15 @@ app.post('/clustering', (req, res) => {
   res.render('clustering.ejs');
 })
 
-app.get('/scraping', (req, res) => {
-  res.render('scraping.ejs');
-})
-
 app.post('/scraping', (req, res) => {
   var process = spawn('python3', [scraperPath, req.body.symbol]); 
   process.stdout.on('data', function(data) { 
-    console.log('scraped');
+    console.log(data.toString());
   }); 
-  res.render('scraping.ejs');
+  process.on('exit', () => {
+    res.render('clustering.ejs');
+  });
+
 })
 
 app.get('/upload', (req, res) => {

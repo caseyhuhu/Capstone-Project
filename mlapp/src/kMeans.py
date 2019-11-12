@@ -13,7 +13,7 @@ np.random.seed(seed)
 # companyStockFile = sys.argv[1]
 #Get Companies
 # companiesCSV = pd.read_csv('./DataFrames/Stock_data.csv',index_col = 0)
-companiesCSV = pd.read_csv('Stock_data.csv', index_col = 0)
+companiesCSV = pd.read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Stock_data.csv', index_col = 0)
 # companiesCSV = pd.read_csv(companyStockFile,index_col = 0)
 
 #Split companies into their own data structures

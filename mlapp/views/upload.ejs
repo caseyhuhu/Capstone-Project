@@ -3,15 +3,14 @@
     <div class="row">
          <div class="col-md-12">
                 <br>
-                <br>
-                <br>
+                <h1 style="text-align: center; color: #736D5C;">Uploading Data</h1>
                 <br>
                 <div class="card-deck">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title" style="text-align: center">Upload Tutorial</h5>
-                            <h6>Steps to upload data:</h6>
-                            <ol style="text-align: left">
+                            <h5 class="card-title" style="text-align: center; color: #736D5C;">Upload Tutorial</h5>
+                            <h6 style="color: #B3AA8F;">Steps to upload data:</h6>
+                            <ol style="text-align: left; color: #B3AA8F;">
                                 <li>Check to see if company data is already uploaded</li>
                                 <li>Format the CSV according to our standards</li>
                                 <li>Choose file from your computer's  directory</li>
@@ -21,21 +20,21 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title" style="text-align: center">Upload a file here</h5>
+                            <h5 class="card-title" style="text-align: center; color: #736D5C;">Upload a file here</h5>
                             <br>
                             <br>
                             <form method="post" enctype="multipart/form-data" action='/upload'>
                                 <input type="file" name="filename">
                                 <br>
                                 <br>
-                                <button href="/upload" class="btn btn-primary btn-md my-0" type="submit">Upload</button>
+                                <button href="/upload" class="btn btn-dark btn-md my-0" type="submit">Upload</button>
                             </form>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title" style="text-align: center">Currently uploaded companies</h5>
-                            <ul>
+                            <h5 class="card-title" style="text-align: center; color: #736D5C;">Currently uploaded companies</h5>
+                            <ul style="color: #B3AA8F;">
                                 <%for (var i = 0; i < myData.length; i++) { %>
                                     <li><%=myData[i] %></li>
                                 <% } %>            

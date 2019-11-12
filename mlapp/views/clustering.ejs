@@ -2,17 +2,34 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h1 style="text-align: center">Clustering</h1>
-            <div class="text-center">
-                <form method="post" enctype="multipart/form-data" action='/upload'>
-                    <br>
-                    <input type="text" name="name" placeholder="Company Name">
-                    <br>
-                    <br>
-                    <input type="text" name="symbol" placeholder="Stock Symbol">
-                    <br><br>
-                    <button href="/clustering" class="btn btn-primary btn-md my-0" type="submit">Cluster</button>
-                </form> 
+            <br>
+            <h1 style="text-align: center; color: #736D5C;">Clustering</h1>
+            <br>
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center; color: #736D5C;">Cluster Tutorial</h5>
+                        <h6 style="color: #B3AA8F;">Steps to cluster data:</h6>
+                        <ol style="text-align: left; color: #B3AA8F;">
+                            <li>Enter a company's ticker symbol</li>
+                            <li>Click 'scrape' to enter the stock info into our CSV</li>
+                            <li>Click cluster to see the cluster analysis of related companies</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center; color: #736D5C;">Cluster Here</h5>
+                        <br>
+                        <form method="post" enctype="multipart/form-data" action='/scraping'>
+                            <input type="text" name="symbol" placeholder="Stock Symbol">
+                            <br><br>
+                            <button href="/scraping" class="btn btn-dark btn-md my-0" type="submit">Scrape</button>
+                        </form>     
+                        <br>
+                        <button href="/clustering" class="btn btn-dark btn-md my-0" type="submit">Cluster</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

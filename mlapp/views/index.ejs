@@ -3,28 +3,19 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <br>
-            <h1 style="text-align: center">Website Title</h1>
-            <h4 style="text-align: center">Machine Learning for Prediction and Analysis of Public Financial Data</h3>
+            <h1 style="text-align: center; color: #736D5C;">Website Title</h1>
+            <h4 style="text-align: center; color: #B3AA8F;">Machine Learning for Prediction and Analysis of Public Financial Data</h3>
             <br> 
             <br>
             <div class="text-center">
-                <!-- <div class="active-cyan-3 active-cyan-4 mb-4">
-                    <select id="volume">
-                        <option disabled selected="true">Select a company name</option>
-                        <%for (var i = 0; i < myData.length; i++) { %>
-                        <option><%=myData[i] %></option>
-                       <% } %>
-                    </select>
-                </div>         
-                <form action="/" method="POST">
-                    <button href="/" class="btn btn-primary btn-md my-0" type="submit">Predict</button>
-                </form>                                               -->
                 <form method="post" enctype="multipart/form-data" action='/'>
                     <br>
-                    <input type="text" name="number" placeholder="Number of Companies">
+                    <input type="text" name="name" placeholder="Company name">
                     <br><br>
-                    <button href="/" class="btn btn-primary btn-md my-0" type="submit">Predict</button>
+                    <button href="/" class="btn btn-dark btn-md my-0" type="submit">Predict</button>
                 </form> 
+                <br>
+                <%= stockPrice %>
             </div>
         </div>
     </div>

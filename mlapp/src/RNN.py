@@ -2,6 +2,7 @@
 #change verbosity in line94 to 0 to get rid of all the epochs printing
 #comment out all print statements for web
 #inv_yhat is the variable that holds the prediction
+
 import sys
 import matplotlib
 from math import sqrt
@@ -17,14 +18,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from datetime import datetime
-
-#load data
-def parse(x):
-    return datetime.strptime(x,'%Y %m')
-
-dataset = read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Combined_data_adjusted_full.csv', parse_dates = [['Year', 'Quarter']], index_col=0, date_parser=parse)
-dataset.index.name = 'time'
-dataset.to_csv('data.csv')
+import json
 
 # convert series to supervised learning
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
@@ -51,21 +45,35 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 	return agg
 
 train_num = 33
-# NUM_COMPANIES = int(sys.argv[1])
-NUM_COMPANIES = 9
-TOTAL_FEATURES = (NUM_COMPANIES * 12)
-# print("Total Number of Companies : " , NUM_COMPANIES)
-# print("Total Number of Features : " , TOTAL_FEATURES)
+#NUM_COMPANIES = int(sys.argv[1])
+#print("Total Number of Companies : " , NUM_COMPANIES)
+
+def parse(x):
+    return datetime.strptime(x,'%Y %m')
+
+dataset0 = read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Combined_data_adjusted_full.csv', parse_dates = [['Year', 'Quarter']], index_col=0, date_parser=parse)
+dataset0.index.name = 'time'
+dataset0.to_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/data.csv')
 
 #load dataset
-dataset = read_csv('data.csv', header=0, index_col=0)
+dataset = read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/data.csv', header=0, index_col=0)
 values = dataset.values
+#getting company names
+NUM_COMPANIES = len(dataset.columns.tolist())
+NUM_COMPANIES = int(NUM_COMPANIES/12)
+TOTAL_FEATURES = (NUM_COMPANIES * 12)
+#print("Total Number of Companies : " , NUM_COMPANIES)
+#print("Total Number of Features : " , TOTAL_FEATURES)
+company_names = dataset.columns.tolist()
+company_names = company_names[-NUM_COMPANIES:]
+
+
 #ensure all data is float
 values = values.astype('float32')
 #normalize features
 scaler = MinMaxScaler(feature_range=(0,1))
 scaled = scaler.fit_transform(values)
-# print (values[0,0])
+#print (values[0,0])
 #Building Each Models
 #model_num = 0
 reframed = series_to_supervised(scaled,1,1)
@@ -76,7 +84,7 @@ i=0
 while (i<NUM_COMPANIES):
 	reframed.drop(reframed.columns[[108,109,110,111,112,113,114,115,116,117,118]],axis=1, inplace=True)
 	i = i+1
-# print(reframed.head())	
+#print(reframed.head())	
 
 #split into train and test sets
 values = reframed.values
@@ -88,7 +96,7 @@ test_X, test_y = test[:, :(-1*NUM_COMPANIES)], test[:,TOTAL_FEATURES:]
 # reshape input to be 3D [samples, timesteps, features]
 train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
 test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
-# print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
+#print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
 # design network
 model = Sequential()
@@ -98,7 +106,7 @@ model.add(LSTM(64, return_sequences=True))
 model.add(LSTM(32, return_sequences=True))
 model.add(LSTM(16, return_sequences=True))
 model.add(LSTM(9))
-model.add(Dense(9))
+model.add(Dense(NUM_COMPANIES))
 model.compile(loss='mae', optimizer='adam')
 # fit network
 history = model.fit(train_X, train_y, epochs=200, batch_size=16, validation_data=(test_X, test_y), verbose=0, shuffle=False)
@@ -106,7 +114,7 @@ history = model.fit(train_X, train_y, epochs=200, batch_size=16, validation_data
 pyplot.plot(history.history['loss'], label='train')
 pyplot.plot(history.history['val_loss'], label='test')
 pyplot.legend()
-pyplot.show()
+# pyplot.show()
 
 #make a prediction
 yhat = model.predict(test_X)
@@ -115,4 +123,17 @@ test_X = test_X.reshape((test_X.shape[0], test_X.shape[2]))
 inv_yhat = concatenate((yhat, test_X[:,NUM_COMPANIES:]), axis=1)
 inv_yhat = scaler.inverse_transform(inv_yhat)
 inv_yhat = inv_yhat[:,0:NUM_COMPANIES]
-print(inv_yhat)
+
+# print(inv_yhat)
+# print(company_names)
+
+listInv = []
+for i in range(9):
+	listInv.append(str(inv_yhat[0][i]))
+	company_names[i] = company_names[i].replace('Stock price_', '')
+
+dictionary = dict(zip(company_names, listInv))
+json_string = json.dumps(dictionary)
+
+print(json_string)
+

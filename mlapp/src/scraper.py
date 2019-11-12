@@ -49,7 +49,7 @@ def get_stock_data(symbol, startyear=2008, startmonth=1, endyear=2019, endmonth=
     return pd.DataFrame(data_rows, columns=['Year', 'Month', 'Day', 'Adjusted close price'])
 
 symbol = sys.argv[1]
-combined_df = pd.read_csv('Stock_data.csv', index_col=0)
+combined_df = pd.read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Stock_data.csv', index_col=0)
 if symbol in combined_df.columns.tolist():
     print('Company is already in DataFrame')
 else:
@@ -59,4 +59,4 @@ else:
     else:
         new_data = new_df['Adjusted close price'].tolist()
         combined_df[symbol] = new_data
-        combined_df.to_csv('Stock_data.csv')
+        combined_df.to_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Stock_data.csv')
