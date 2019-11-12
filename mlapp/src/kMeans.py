@@ -44,7 +44,7 @@ km = TimeSeriesKMeans(n_clusters=numClusters,metric="euclidean",
 clusterPredictions = km.fit_predict(formatted_dataset)
 
 for cluster in range(numClusters):
-    figName = "Cluster" + str(cluster) + '.png'
+    figName = "/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/public/Cluster" + str(cluster) + '.png'
     fig = plt.figure()#figsize=(20,10))
     #plt.tight_layout()
     ax = fig.add_axes([0,0,1,1])

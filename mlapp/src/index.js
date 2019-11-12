@@ -12,6 +12,7 @@ app.use(cors()); //middleware
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(upload())
+app.use(express.static(__dirname + '/public'));
 
 var directoryPath = path.join(__dirname, 'upload');
 var rnnPath = path.join(__dirname, 'RNN.py');
@@ -77,7 +78,9 @@ app.post('/clustering', (req, res) => {
   process.stdout.on('data', function(data) { 
     console.log(data.toString());
   }); 
-  res.render('clustering.ejs');
+  process.on('exit', () => {
+    res.render('clustering.ejs');
+  });
 })
 
 app.post('/scraping', (req, res) => {
@@ -88,7 +91,6 @@ app.post('/scraping', (req, res) => {
   process.on('exit', () => {
     res.render('clustering.ejs');
   });
-
 })
 
 app.get('/upload', (req, res) => {
