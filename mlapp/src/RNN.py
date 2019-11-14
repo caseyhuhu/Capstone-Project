@@ -51,12 +51,30 @@ train_num = 33
 def parse(x):
     return datetime.strptime(x,'%Y %m')
 
-dataset0 = read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Combined_data_adjusted_full.csv', parse_dates = [['Year', 'Quarter']], index_col=0, date_parser=parse)
-dataset0.index.name = 'time'
-dataset0.to_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/data.csv')
+# Load dataset
+target_company = sys.argv[1] # The symbol of the company we want to predict for
+dataset = pd.read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Combined_data_adjusted_full.csv', parse_dates = [['Year', 'Quarter']], date_parser=parse)
+dataset.index.name = 'time'
 
-#load dataset
-dataset = read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/data.csv', header=0, index_col=0)
+# Remove all EDGAR data from other companies, and remove all stock data from companies not in the same cluster
+clusters_file = open('clusters.txt', 'r')
+clusters = clusters_file.readlines()
+other_companies_in_cluster = []
+for clus in clusters:
+    if target_company in clus:
+        other_companies_in_cluster = clus.split()
+        other_companies_in_cluster.remove(target_company)
+        break
+        
+columns_to_drop = []
+for col in dataset.columns:
+    if not any(term in col for term in ['Year_Quarter', target_company] + other_companies_in_cluster):
+        columns_to_drop.append(col)
+    elif not any(term in col for term in ['Year_Quarter', 'Stock price', target_company]):
+            columns_to_drop.append(col)
+
+dataset.drop(columns_to_drop, axis=1, inplace=True)
+
 values = dataset.values
 #getting company names
 NUM_COMPANIES = len(dataset.columns.tolist())
