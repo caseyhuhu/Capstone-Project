@@ -53,7 +53,7 @@ def parse(x):
 
 # Load dataset
 target_company = sys.argv[1] # The symbol of the company we want to predict for
-dataset = pd.read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Combined_data_adjusted_full.csv', parse_dates = [['Year', 'Quarter']], date_parser=parse)
+dataset = pd.read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Combined_data_user_input.csv', parse_dates = [['Year', 'Quarter']], date_parser=parse)
 dataset.index.name = 'time'
 
 # Remove all EDGAR data from other companies, and remove all stock data from companies not in the same cluster
