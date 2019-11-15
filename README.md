@@ -11,7 +11,7 @@ There are three main steps in using the web application:
 
 
 2. Cluster companies based on their stock value over time. This can be used separately from the other two steps.
-    * Enter the stock symbol of a company to add it to the cluster calculation.
+    * Enter a comma-separated list of one or more stock symbols to add companies to the cluster calculation.
     * Each cluster is displayed on a graph of the stock price since 1/1/2008.
     * Press reset button to reset 'Stock data.csv' and 'clusters.txt' on the backend to how they were originally.  
     
