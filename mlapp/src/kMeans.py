@@ -43,6 +43,8 @@ km = TimeSeriesKMeans(n_clusters=numClusters,metric="euclidean",
                                   random_state=seed,n_init=3)   
 clusterPredictions = km.fit_predict(formatted_dataset)
 
+companyNameLines = ['','','','']
+clusterTxt = open(r"clusters.txt","w")
 for cluster in range(numClusters):
     figName = "/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/public/Cluster" + str(cluster) + '.png'
     fig = plt.figure()#figsize=(20,10))
@@ -50,9 +52,13 @@ for cluster in range(numClusters):
     ax = fig.add_axes([0,0,1,1])
     for j in range(0,len(formatted_dataset)):
         if(clusterPredictions[j] == cluster):
+            companyNameLines[cluster] = companyNameLines[cluster] + companyNames[j] + ' '
             xx = formatted_dataset[j]
             ax.plot(xx.ravel(), alpha=.2, label=companyNames[j]) #"k-"
     ax.plot(km.cluster_centers_[cluster].ravel(), "r-", label='Cluster Center') 
     ax.set_title("KMCluster " + str(cluster+1))
     lgd = ax.legend(bbox_to_anchor=(1, 1),fontsize = 'large')
     fig.savefig(figName,bbox_inches="tight")
+    companyNameLines[cluster] = companyNameLines[cluster].rstrip() + '\n'
+clusterTxt.writelines(companyNameLines)
+clusterTxt.close()
