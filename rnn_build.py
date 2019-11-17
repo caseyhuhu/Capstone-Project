@@ -43,7 +43,7 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 		agg.dropna(inplace=True)
 	return agg
 
-train_num = 33
+train_num = 34
 #NUM_COMPANIES = int(sys.argv[1])
 #print("Total Number of Companies : " , NUM_COMPANIES)
 
@@ -52,7 +52,7 @@ def parse(x):
 
 # Load dataset
 target_company = sys.argv[1] # The symbol of the company we want to predict for
-dataset = pd.read_csv('Combined_data_user_input.csv', parse_dates = [['Year', 'Quarter']], date_parser=parse)
+dataset = pd.read_csv('Combined_data_user_input.csv', parse_dates = [['Year', 'Quarter']], index_col=0, date_parser=parse)
 dataset.index.name = 'time'
 
 # Remove all EDGAR data from other companies, and remove all stock data from companies not in the same cluster
@@ -74,11 +74,19 @@ for col in dataset.columns:
 
 dataset.drop(columns_to_drop, axis=1, inplace=True)
 
+#Reordering columns to have the stock price of the company that user specified to be the last colun
+cols = list(dataset)
+cols.insert(len(cols),cols.pop(col.index('Stock price_'+target_company)))
+dataset = dataset.ix[:,cols]
 values = dataset.values
+
 #getting company names
-NUM_COMPANIES = len(dataset.columns.tolist())
-NUM_COMPANIES = NUM_COMPANIES/12
-TOTAL_FEATURES = (NUM_COMPANIES * 12)
+NUM_COMPANIES = 0
+for col in cols:
+    if 'Stock price' in col:
+        NUM_COMPANIES = NUM_COMPANIES + 1
+
+TOTAL_FEATURES = (NUM_COMPANIES + 11)        
 #print("Total Number of Companies : " , NUM_COMPANIES)
 #print("Total Number of Features : " , TOTAL_FEATURES)
 company_names = dataset.columns.tolist()
@@ -89,26 +97,23 @@ values = values.astype('float32')
 #normalize features
 scaler = MinMaxScaler(feature_range=(0,1))
 scaled = scaler.fit_transform(values)
-#print (values[0,0])
-#Building Each Models
-#model_num = 0
 reframed = series_to_supervised(scaled,1,1)
-#while (model_num < NUM_COMPANIES):
-#	print("Building Model #" , model_num+1)
+
 #drop columns 
-i=0
-while (i<NUM_COMPANIES):
-	reframed.drop(reframed.columns[[108,109,110,111,112,113,114,115,116,117,118]],axis=1, inplace=True)
-	i = i+1
-#print(reframed.head())	
+drop_col = 11 + NUM_COMPANIES
+reframed.drop(reframed.columns[[drop_col, drop_col+1, drop_col+2, drop_col+3, drop_col+4, drop_col+5, drop_col+6, drop_col+7, drop_col+8, drop_col+9, drop_col+10]],axis=1, inplace=True)
+i=1
+while(i<NUM_COMPANIES):
+    reframed.drop(reframed.columns[[drop_col]],axis=1, inplace=True)
+    i = i+1
 
 #split into train and test sets
 values = reframed.values
 train = values[:train_num, :]
-test = values[train_num: , :]
+test = values[train_num-1: , :]
 #split into input and outputs
-train_X, train_y = train[:, :(-1*NUM_COMPANIES)], train[:,TOTAL_FEATURES:]
-test_X, test_y = test[:, :(-1*NUM_COMPANIES)], test[:,TOTAL_FEATURES:]
+train_X, train_y = train[:, :-1], train[:,-1]
+test_X, test_y = test[:,:-1], test[:,-1]
 # reshape input to be 3D [samples, timesteps, features]
 train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
 test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
@@ -116,28 +121,23 @@ test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
 
 # design network
 model = Sequential()
-model.add(LSTM(256, return_sequences=True, input_shape=(train_X.shape[1], train_X.shape[2])))
-model.add(LSTM(128, return_sequences=True))
-model.add(LSTM(64, return_sequences=True))
-model.add(LSTM(32, return_sequences=True))
-model.add(LSTM(16, return_sequences=True))
-model.add(LSTM(9))
-model.add(Dense(NUM_COMPANIES))
+model.add(LSTM(12, input_shape=(train_X.shape[1], train_X.shape[2])))
+model.add(Dense(1))
 model.compile(loss='mae', optimizer='adam')
 # fit network
-history = model.fit(train_X, train_y, epochs=200, batch_size=16, validation_data=(test_X, test_y), verbose=0, shuffle=False)
+history = model.fit(train_X, train_y, epochs=1024, batch_size=12, validation_data=None, verbose=0, shuffle=False)
 # plot history
-pyplot.plot(history.history['loss'], label='train')
-pyplot.plot(history.history['val_loss'], label='test')
-pyplot.legend()
-pyplot.show()
+#pyplot.plot(history.history['loss'], label='train')
+#pyplot.plot(history.history['val_loss'], label='test')
+#pyplot.legend()
+#pyplot.show()
 
 #make a prediction
 yhat = model.predict(test_X)
 test_X = test_X.reshape((test_X.shape[0], test_X.shape[2]))
 #invert scaling for prediction
-inv_yhat = concatenate((yhat, test_X[:,NUM_COMPANIES:]), axis=1)
+inv_yhat = concatenate((test_X[:,:-1],yhat),axis=1)
 inv_yhat = scaler.inverse_transform(inv_yhat)
-inv_yhat = inv_yhat[:,0:NUM_COMPANIES]
+inv_yhat = inv_yhat[:,-1]
 print(inv_yhat)
 print(company_names)
