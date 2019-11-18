@@ -1,8 +1,11 @@
 import pandas as pd
 import sys
+import os
+cwd = os.getcwd()
+cwd = cwd+'/src/'
 
 # Combines two CSV given as arguments in the command line
-orig_df = pd.read_csv('Combined_data_adjusted_full.csv')
+orig_df = pd.read_csv(cwd+'Combined_data_adjusted_full.csv')
 new_df = pd.read_csv(sys.argv[1]) # New DataFrame with the users' companies' data. Stock prices are the last columns
 if new_df.columns.tolist()[0] == 'Unnamed: 0':
     new_df = pd.read_csv(sys.argv[1], index_col=0)

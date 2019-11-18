@@ -47,15 +47,13 @@ app.post('/', (req, res) => {
   var obj;
   
   var stockPrice = [];
-  var name = req.body.name;
-  var caseName = name[0] + name.substring(1).toLowerCase();
-  var process = spawn('python3', [rnnPath]); 
+  var process = spawn('python3', [rnnPath, req.body.symbol]); 
   process.stdout.on('data', function(data) {
+    console.log('this happened')
     output = data.toString(); 
   });
   process.on('exit', () => {
-    obj = JSON.parse(output);
-    stockPrice.push(caseName + "'s stock price is predicted to be $" + obj[name]);
+    stockPrice.push(output);
     res.render('index.ejs', {myData, stockPrice});
   });
 });

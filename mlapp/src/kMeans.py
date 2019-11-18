@@ -7,13 +7,16 @@ import io
 from tslearn.utils import *
 from tslearn.clustering import TimeSeriesKMeans
 from contextlib import redirect_stdout
+import os
+cwd = os.getcwd()
+cwd = cwd+'/src/'
 
 seed = 1
 np.random.seed(seed)
 # companyStockFile = sys.argv[1]
 #Get Companies
 # companiesCSV = pd.read_csv('./DataFrames/Stock_data.csv',index_col = 0)
-companiesCSV = pd.read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Stock_data.csv', index_col = 0)
+companiesCSV = pd.read_csv(cwd+'Stock_data.csv', index_col = 0)
 # companiesCSV = pd.read_csv(companyStockFile,index_col = 0)
 
 #Split companies into their own data structures
@@ -44,9 +47,9 @@ km = TimeSeriesKMeans(n_clusters=numClusters,metric="euclidean",
 clusterPredictions = km.fit_predict(formatted_dataset)
 
 companyNameLines = ['','','','']
-clusterTxt = open(r"clusters.txt","w")
+clusterTxt = open(cwd+"clusters.txt","w")
 for cluster in range(numClusters):
-    figName = "/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/public/Cluster" + str(cluster) + '.png'
+    figName = cwd+"/public/Cluster" + str(cluster) + '.png'
     fig = plt.figure()#figsize=(20,10))
     #plt.tight_layout()
     ax = fig.add_axes([0,0,1,1])

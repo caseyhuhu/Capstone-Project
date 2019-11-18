@@ -4,6 +4,9 @@ import numpy as np
 from time import sleep
 from alpha_vantage.timeseries import TimeSeries
 import sys
+import os
+cwd = os.getcwd()
+cwd = cwd+'/src/'
 
 def get_stock_data(symbol, startyear=2008, startmonth=1, endyear=2019, endmonth=10):
     
@@ -71,10 +74,10 @@ def add_stock_data(symbol_list):
         company_count += 1
         if company_count % 5 == 0:
             sleep(65) # We are limited to 5 calls to AlphaVantage per minute
-    combined_df.to_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Stock_data.csv')
+    combined_df.to_csv(cwd+'Stock_data.csv')
 	
 arg = sys.argv[1]
-combined_df = pd.read_csv('/Users/rajatahuja/Documents/EE364D/Capstone-Project/mlapp/src/Stock_data.csv', index_col=0)
+combined_df = pd.read_csv(cwd+'Stock_data.csv', index_col=0)
 
 # Is input given in the form of a CSV of EDGAR data or as a list of comma-separated symbols?
 if arg.lower().endswith('.csv'):
