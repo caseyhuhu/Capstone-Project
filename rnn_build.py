@@ -141,3 +141,21 @@ inv_yhat = scaler.inverse_transform(inv_yhat)
 inv_yhat = inv_yhat[:,-1]
 print(inv_yhat)
 print(company_names)
+
+#Save Stock Price graph
+figTitle = target_company + " Stock since October 2018"
+allStockPrices = pd.read_csv('Stock_data.csv',index_col=0)
+StockPrices = allStockPrices.filter(items=[target_company])
+actual = StockPrices.iloc[2957,0]
+StockPrices = StockPrices.head(2958)
+StockPrices = StockPrices.tail(365)
+prediction = inv_yhat
+#prediction = 1759
+fig = pyplot.figure(figsize=(20,10))
+ax = fig.add_axes([0,0,1,1])
+ax.set_title(figTitle)
+pyplot.plot(StockPrices.index.tolist(),StockPrices.get(target_company).tolist(),label='Actual Stock Price')
+pyplot.plot(2957,prediction,'ro',markersize=7,label='Predicted Stock Price')
+lgd = ax.legend(bbox_to_anchor=(1, 1))
+fig.savefig('predGraph.png',bbox_inches="tight")
+
