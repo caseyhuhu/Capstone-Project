@@ -53,13 +53,13 @@ def parse(x):
     return datetime.strptime(x,'%Y %m')
 
 # Load dataset
-cwd = cwd+'/src'
+cwd = cwd+'/src/'
 target_company = sys.argv[1] # The symbol of the company we want to predict for
-dataset = read_csv(cwd+'/Combined_data_user_input.csv', parse_dates = [['Year', 'Quarter']], index_col=0, date_parser=parse)
+dataset = read_csv(cwd+'Combined_data_user_input.csv', parse_dates = [['Year', 'Quarter']], index_col=0, date_parser=parse)
 dataset.index.name = 'time'
 
 # Remove all EDGAR data from other companies, and remove all stock data from companies not in the same cluster
-clusters_file = open(cwd+'/clusters.txt', 'r')
+clusters_file = open(cwd+'clusters.txt', 'r')
 clusters = clusters_file.readlines()
 other_companies_in_cluster = []
 for clus in clusters:
@@ -146,11 +146,14 @@ print(target_company,"stock price prediction: $" + str(inv_yhat[0]))
 #print(company_names)
 
 #Save Stock Price graph
-figTitle = target_company + " Stock since October 2018"
-allStockPrices = pd.read_csv('Stock_data.csv',index_col=0)
+stockDate = 2957
+if target_company == 'AAPL':
+	stockDate = 2830
+figTitle = target_company + " Stock Price Over Time"
+allStockPrices = read_csv(cwd+'Stock_data.csv',index_col=0)
 StockPrices = allStockPrices.filter(items=[target_company])
-actual = StockPrices.iloc[2957,0]
-StockPrices = StockPrices.head(2958)
+actual = StockPrices.iloc[stockDate,0]
+StockPrices = StockPrices.head(stockDate)
 StockPrices = StockPrices.tail(365)
 prediction = inv_yhat
 #prediction = 31.27
@@ -158,6 +161,7 @@ fig = pyplot.figure(figsize=(20,10))
 ax = fig.add_axes([0,0,1,1])
 ax.set_title(figTitle)
 pyplot.plot(StockPrices.index.tolist(),StockPrices.get(target_company).tolist(),label='Actual Stock Price')
-pyplot.plot(2957,prediction,'ro',markersize=7,label='Predicted Stock Price')
+pyplot.plot(stockDate,prediction,'ro',markersize=7,label='Predicted Stock Price')
 lgd = ax.legend(bbox_to_anchor=(.25, .98),fontsize =23)
-fig.savefig('predGraph.png',bbox_inches="tight")
+figName = cwd+"/public/predGraph.png"
+fig.savefig(figName,bbox_inches="tight")

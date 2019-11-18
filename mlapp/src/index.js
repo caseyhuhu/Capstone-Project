@@ -49,7 +49,6 @@ app.post('/', (req, res) => {
   var stockPrice = [];
   var process = spawn('python3', [rnnPath, req.body.symbol]); 
   process.stdout.on('data', function(data) {
-    console.log('this happened')
     output = data.toString(); 
   });
   process.on('exit', () => {
@@ -131,6 +130,17 @@ app.post('/upload', (req, res) => {
     })
   }
 })
+
+app.post('/reset', (req, res) => {
+  fs.copyFile(__dirname+'/clusters_original.txt', __dirname+'/clusters.txt', (err) => {
+  if (err) throw err;
+  console.log('source.txt was copied to destination.txt');
+  });
+  fs.copyFile(__dirname+'/Stock_data_original.csv', __dirname+'/Stock_data.csv', (err) => {
+    if (err) throw err;
+  console.log('Stock_data_original.csv was copied to Stock_data.csv');
+  });
+});
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000')

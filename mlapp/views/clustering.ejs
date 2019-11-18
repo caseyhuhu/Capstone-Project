@@ -24,12 +24,17 @@
                         <form method="post" enctype="multipart/form-data" action='/scraping'>
                             <input type="text" name="symbol" placeholder="Stock Symbol">
                             <br><br>
-                            <button href="/scraping" class="btn btn-dark btn-md my-0" type="submit">Scrape</button>
+                            <button title="Scrapes a company's stock data" href="/scraping" class="btn btn-dark btn-md my-0" type="submit">Scrape</button>
                         </form>     
                         <br>
                         <form method="post" enctype="multipart/form-data" action='/clustering'>
-                            <button href="/clustering" class="btn btn-dark btn-md my-0" type="submit">Cluster</button>
+                        <button title="Clusters all uploaded companies" href="/clustering" class="btn btn-dark btn-md my-0" type="submit">Cluster</button>
                         </form>
+                        <br>
+                        <form method="post" enctype="multipart/form-data" action='/reset'>
+                            <button title="Resets stock data and cluster files to original" href="/reset" class="btn btn-dark btn-md my-0" type="submit">Reset</button>
+                        </form>
+                        <br>
                     </div>
                 </div>
                 <br>
@@ -39,9 +44,9 @@
 </div>
 <br>
 <div style="text-align: center;">                    
-    <img src="/Cluster0.png" alt="Cluster 0" width="325px" height="325px"/>
-    <img src="/Cluster1.png" alt="Cluster 1" width="325px" height="325px"/>
-    <img src="/Cluster2.png" alt="Cluster 2" width="325px" height="325px"/>
-    <img src="/Cluster3.png" alt="Cluster 3" width="325px" height="325px"/>
+    <img src="/Cluster0.png" alt="" width="325px" height="325px"/>
+    <img src="/Cluster1.png" alt="" width="325px" height="325px"/>
+    <img src="/Cluster2.png" alt="" width="325px" height="325px"/>
+    <img src="/Cluster3.png" alt="" width="325px" height="325px"/>
 </div>
 <% include ../src/partials/footer.ejs %>
