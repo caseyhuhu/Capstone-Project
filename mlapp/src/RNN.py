@@ -106,6 +106,8 @@ reframed = series_to_supervised(scaled,1,1)
 #while (model_num < NUM_COMPANIES):
 #	print("Building Model #" , model_num+1)
 #drop columns 
+drop_col = 11 + NUM_COMPANIES
+reframed.drop(reframed.columns[[drop_col, drop_col+1, drop_col+1, drop_col+3, drop_col+4, drop_col+5, drop_col+6, drop_col+7, drop_col+8, drop_col+9, drop_col+10]],axis=1, inplace = True)
 i=1
 while(i<NUM_COMPANIES):
     reframed.drop(reframed.columns[[drop_col]],axis=1, inplace=True)
