@@ -18,42 +18,50 @@ var directoryPath = path.join(__dirname, 'upload');
 var rnnPath = path.join(__dirname, 'RNN.py');
 var scraperPath = path.join(__dirname, 'scraper.py');
 var clusterpath = path.join(__dirname, 'kMeans.py');
+var uploadPath = path.join(__dirname, 'csv_combiner.py')
 
 app.get('/', (req, res) => {
-  var myData = [];
   var stockPrice;
-  fs.readdir(directoryPath, function (err, files) {
-    if (err) {
-        return console.log('Unable to scan directory: ' + err);
-    } 
-    files.forEach(function (file) {
-        myData.push(file);
-    });
-    res.render('index.ejs', {myData, stockPrice});
-  });
+  res.render('index.ejs', {stockPrice});
 });
 
 app.post('/', (req, res) => {
-  var myData = [];
-  fs.readdir(directoryPath, function (err, files) {
-    if (err) {
-        return console.log('Unable to scan directory: ' + err);
-    } 
-    files.forEach(function (file) {
-        myData.push(file);
-    });
-  });
   var output;
   var obj;
-  
+
+  fs.copyFile(__dirname+'/clusters_original.txt', __dirname+'/clusters.txt', (err) => {
+    if (err) throw err;
+    console.log('source.txt was copied to destination.txt');
+  });
+  fs.copyFile(__dirname+'/Stock_data_original.csv', __dirname+'/Stock_data.csv', (err) => {
+    if (err) throw err;
+    console.log('Stock_data_original.csv was copied to Stock_data.csv');
+  });
+
   var stockPrice = [];
-  var process = spawn('python3', [rnnPath, req.body.symbol]); 
+  var process = spawn('python3', [scraperPath, 'Combined_data_user_input.csv']);  //scraping process
+  process.stdout.on('data', function(data) {
+    output = data.toString(); 
+  });
+  process.on('exit', () => {
+    console.log('scraped combined user input')
+  });
+
+  var process = spawn('python3', [clusterpath]); //clustering process
+  process.stdout.on('data', function(data) { 
+    console.log(data.toString());
+  }); 
+  process.on('exit', () => {
+    console.log('clustered data');
+  });
+  var process = spawn('python3', [rnnPath, req.body.symbol]); //rnn process
+  console.log('spawned')
   process.stdout.on('data', function(data) {
     output = data.toString(); 
   });
   process.on('exit', () => {
     stockPrice.push(output);
-    res.render('index.ejs', {myData, stockPrice});
+    res.render('index.ejs', {stockPrice});
   });
 });
 
@@ -104,30 +112,22 @@ app.get('/upload', (req, res) => {
 })
 
 app.post('/upload', (req, res) => {
+  console.log(req.body);
   if (req.files) {
     var file = req.files.filename,
       filename = file.name;
-    // if (path.extname(filename) != '.csv') {
-    //   res.end();
-    // }
     file.mv('./src/upload/'+filename, (err) => {
       if(err) {
         console.log(err);
-        res.send("The file failed to upload");
       }
-      else {
-          var myData = [];
-          fs.readdir(directoryPath, function (err, files) {
-          if (err) {
-              return console.log('Unable to scan directory: ' + err);
-          } 
-          files.forEach(function (file) {
-              myData.indexOf(file) === -1 ? myData.push(file) : null;
-          });
-          res.render('upload.ejs', {myData});
-        });      
-      }
-    })
+    });
+    var process = spawn('python3', [uploadPath, filename]); 
+    process.stdout.on('data', function(data) { 
+      console.log(data.toString());
+    }); 
+    process.on('exit', () => {
+      res.render('upload.ejs');
+    });  
   }
 })
 
@@ -140,6 +140,7 @@ app.post('/reset', (req, res) => {
     if (err) throw err;
   console.log('Stock_data_original.csv was copied to Stock_data.csv');
   });
+  res.render('clustering.ejs');
 });
 
 app.listen(3000, () => {
