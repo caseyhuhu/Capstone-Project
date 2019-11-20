@@ -147,21 +147,26 @@ print(target_company,"stock price prediction: $" + str(inv_yhat[0]))
 
 #Save Stock Price graph
 stockDate = 2957
+myBottom = 10
 if target_company == 'AAPL':
 	stockDate = 2830
+if target_company == 'AMD':
+	myBottom = 1
 figTitle = target_company + " Stock Price Over Time"
 allStockPrices = read_csv(cwd+'Stock_data.csv',index_col=0)
 StockPrices = allStockPrices.filter(items=[target_company])
 actual = StockPrices.iloc[stockDate,0]
 StockPrices = StockPrices.head(stockDate)
-StockPrices = StockPrices.tail(365)
+# StockPrices = StockPrices.tail(365)
 prediction = inv_yhat
 #prediction = 31.27
 fig = pyplot.figure(figsize=(20,10))
 ax = fig.add_axes([0,0,1,1])
 ax.set_title(figTitle)
+pyplot.yscale('linear')
 pyplot.plot(StockPrices.index.tolist(),StockPrices.get(target_company).tolist(),label='Actual Stock Price')
 pyplot.plot(stockDate,prediction,'ro',markersize=7,label='Predicted Stock Price')
-lgd = ax.legend(bbox_to_anchor=(.25, .98),fontsize =23)
+pyplot.ylim(bottom=myBottom)
+lgd = ax.legend(loc="upper left",fontsize =23)
 figName = cwd+"/public/predGraph.png"
 fig.savefig(figName,bbox_inches="tight")

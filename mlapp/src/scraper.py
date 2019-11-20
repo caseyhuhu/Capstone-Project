@@ -81,9 +81,9 @@ combined_df = pd.read_csv(cwd+'Stock_data.csv', index_col=0)
 
 # Is input given in the form of a CSV of EDGAR data or as a list of comma-separated symbols?
 if arg.lower().endswith('.csv'):
-    df = pd.read_csv(arg) # New DataFrame with the users' companies' data. Stock prices are the last columns
+    df = pd.read_csv(cwd+arg) # New DataFrame with the users' companies' data. Stock prices are the last columns
     if df.columns.tolist()[0] == 'Unnamed: 0':
-        df = pd.read_csv(arg, index_col=0)
+        df = pd.read_csv(cwd+arg, index_col=0)
     symbol_list = []
     for col in df.columns:
         if 'Stock price' in col:

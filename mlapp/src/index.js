@@ -7,6 +7,22 @@ import bodyParser from 'body-parser'
 import fs from 'fs';
 const app = express();
 import {spawn} from 'child_process';
+import {CronJob} from 'cron';
+import { PassThrough } from 'stream';
+
+const job = new CronJob('0 */1 * * * *', function() {
+  try {
+    fs.unlink(__dirname+'/public/predGraph.png', (err) => {
+      ;
+    });
+  }
+  catch(err) {
+    ;
+  }
+	const d = new Date();
+	console.log('Every 1 Minute:', d);
+});
+job.start();
 
 app.use(cors()); //middleware
 app.set('view engine', 'ejs')
@@ -41,19 +57,26 @@ app.post('/', (req, res) => {
   var stockPrice = [];
   var process = spawn('python3', [scraperPath, 'Combined_data_user_input.csv']);  //scraping process
   process.stdout.on('data', function(data) {
-    output = data.toString(); 
+    console.log(data.toString());
   });
   process.on('exit', () => {
     console.log('scraped combined user input')
+    var process = spawn('python3', [clusterpath]); //clustering process
+    process.stdout.on('data', function(data) { 
+      console.log(data.toString());
+    });   
+    process.on('exit', () => {
+      console.log('clustered data');
+    });  
   });
 
-  var process = spawn('python3', [clusterpath]); //clustering process
-  process.stdout.on('data', function(data) { 
-    console.log(data.toString());
-  }); 
-  process.on('exit', () => {
-    console.log('clustered data');
-  });
+  // var process = spawn('python3', [clusterpath]); //clustering process
+  // process.stdout.on('data', function(data) { 
+  //   console.log(data.toString());
+  // }); 
+  // process.on('exit', () => {
+  //   console.log('clustered data');
+  // });
   var process = spawn('python3', [rnnPath, req.body.symbol]); //rnn process
   console.log('spawned')
   process.stdout.on('data', function(data) {
