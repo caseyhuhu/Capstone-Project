@@ -67,6 +67,15 @@ app.post('/', (req, res) => {
     });   
     process.on('exit', () => {
       console.log('clustered data');
+      var process = spawn('python3', [rnnPath, req.body.symbol]); //rnn process
+      console.log('spawned')
+      process.stdout.on('data', function(data) {
+        output = data.toString(); 
+      });
+      process.on('exit', () => {
+        stockPrice.push(output);
+        res.render('index.ejs', {stockPrice});
+      });    
     });  
   });
 
@@ -77,15 +86,15 @@ app.post('/', (req, res) => {
   // process.on('exit', () => {
   //   console.log('clustered data');
   // });
-  var process = spawn('python3', [rnnPath, req.body.symbol]); //rnn process
-  console.log('spawned')
-  process.stdout.on('data', function(data) {
-    output = data.toString(); 
-  });
-  process.on('exit', () => {
-    stockPrice.push(output);
-    res.render('index.ejs', {stockPrice});
-  });
+  // var process = spawn('python3', [rnnPath, req.body.symbol]); //rnn process
+  // console.log('spawned')
+  // process.stdout.on('data', function(data) {
+  //   output = data.toString(); 
+  // });
+  // process.on('exit', () => {
+  //   stockPrice.push(output);
+  //   res.render('index.ejs', {stockPrice});
+  // });
 });
 
 
